@@ -11,7 +11,7 @@
 
     <title>
         
-        1781的小提琴的博客 | 1781Violin&#39;s Blog
+        Javascript学习笔记：JS中的&#34;this&#34; - 1781的小提琴的博客 | 1781Violin&#39;s Blog
         
     </title>
 
@@ -65,7 +65,7 @@
                     <span>标签</span>
                 </a>
             </li>
-            <li class="active">
+            <li>
                 <a href="/archives">
                     <i class="iconfont icon-guidang2"></i>
                     <span>存档</span>
@@ -80,6 +80,10 @@
             
         </ul>
     </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数中的this"><span class="toc-text">函数中的this</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#箭头函数没有自己的this"><span class="toc-text">箭头函数没有自己的this</span></a></li></ol>
+</div>
     
 </div>
 
@@ -106,120 +110,65 @@
         
 
 
-<!-- 归档列表 -->
+<div class="post-container">
+    <div class="post-title">
+        Javascript学习笔记：JS中的"this"
+    </div>
 
-<div class="archives-container">
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2018-12-31 15:34:17</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
 
-<div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2018">
-                    <span class="tag-text">2018</span>
-                </span>
-    <ul>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li>
-            <span>12-31</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/2018/12/31/js学习笔记01/">
-                        <span>
-                            Javascript学习笔记：JS中的"this"
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li>
-            <span>12-30</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/2018/12/30/南斯拉夫：工人自治的社会主义市场经济-少年中国评论（转载）/">
-                        <span>
-                            南斯拉夫：工人自治的社会主义市场经济-左大培（转载）
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li>
-            <span>12-30</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/2018/12/30/2019年，进步青年向何处去？（转载）/">
-                        <span>
-                            2019年，进步青年向何处去？——红色中国网工作组向青年马列毛左派积极分子的建议书（转载）
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li>
-            <span>12-30</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/2018/12/30/博客测试/">
-                        <span>
-                            博客测试
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
+    </div>
+    <div class="post-content ">
+        <h3 id="函数中的this"><a href="#函数中的this" class="headerlink" title="函数中的this"></a>函数中的this</h3><p>this的基本使用很简单，直观看上去同其他语言一样，在对象的函数内用“this”来获得对象自身的引用，从而实现对对象自身数据的访问、修改。下面是最简单的使用例子：</p>
+<p>‘’’javascript<br>let user = {<br>    name: “ZZY”,<br>    age: 24</p>
+<pre><code>hello() {
+    alert(this.name)
+}
+</code></pre><p>}</p>
+<p>user.hello()</p>
+<p>‘’’</p>
+<p>然而需要注意的是，JavaScript中的”this”是在运行时动态确定的，同一个函数可以分别被不同的对象所使用，从而这个函数中的”this”也将会表示不同对象的引用，就像下面的这段代码：</p>
+<p>‘’’javascript<br>let user = {name: “ZZY”}<br>let admin = {name: “LYQ”}</p>
+<p>function hello(){<br>    alert(this.name)<br>}</p>
+<p>user.func = hello<br>admin.func = hello</p>
+<p>user.func() // ZZY<br>admin.func() // LYQ<br>hello() // undefine</p>
+<p>‘’’</p>
+<p>那么js编译器在调用含“this”的函数时，必须需要知道这个this是引用的哪个对象，如果不知道，就会报错，就像下面这样</p>
+<p>‘’’javascript<br>let user = {<br>    name: “ZZY”,<br>    hello() {<br>        alert(this.name)<br>    }</p>
+<p>let hello = user.hello<br>hello() // error!<br>}<br>‘’’</p>
+<p>要让this正确引用对象，js编译器使用了一种特殊的类型，叫“引用类型”(Reference Type)，这种类型是三个值的组合(base,name,strict)：</p>
+<ul>
+<li>base：对象</li>
+<li>name：对象的属性</li>
+<li>strict：is true if use strict is in effect （？？？？）</li>
+</ul>
+<p>当调用”user.hello()”时，”.”号返回的不是一个函数，而是一个特殊的“引用类型”，即上面那三个值的组合，这样运行时才能确定this所引用的对象是哪个。而这种引用类型只是编译器内部使用，并不能传递到外部给用户使用，所以执行”let hello = user.hello”之后，hello就是单纯的孤零零的函数，而不是三个值的组合。</p>
+<h3 id="箭头函数没有自己的this"><a href="#箭头函数没有自己的this" class="headerlink" title="箭头函数没有自己的this"></a>箭头函数没有自己的this</h3><p>箭头函数没有自己的this，如果箭头函数中使用了this，那么这个this将会直接继承自这个箭头函数定义时所在的代码语境中的this，即如下代码所示：</p>
+<p>‘’’javascript<br>let user = {<br>    name: “ZZY”,<br>    hello() {<br>        let arrow = () =&gt; alert(this.name)<br>        arrow()<br>    }<br>}</p>
+<p>user.hello() // ZZY</p>
+<p>‘’’</p>
 
-    </ul>
-</div>
-
-<div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2017">
-                    <span class="tag-text">2017</span>
-                </span>
-    <ul>
         
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li>
-            <span>10-31</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/2017/10/31/政治经济学笔记/">
-                        <span>
-                            政治经济学笔记
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
-        <!-- <li class="listing-item">
-        <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-        <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-        </li> -->
-        <li>
-            <span>10-23</span>
-            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-            <a href="/2017/10/23/国家与革命笔记/">
-                        <span>
-                            国家与革命笔记
-                        </span>
-            </a>
-            <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-        </li>
-        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
 
-    </ul>
-</div>
+        <div id="lv-container">
+        </div>
 
+    </div>
 </div>
     </div>
 </div>
@@ -283,7 +232,7 @@
     // We expose some of the variables needed by the front end
     window.hexo_search_path = ""
     window.hexo_root = "/"
-    window.isPost = false
+    window.isPost = true
 </script>
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/index.js"></script>
