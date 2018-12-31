@@ -131,22 +131,11 @@
     </div>
     <div class="post-content ">
         <h3 id="函数中的this"><a href="#函数中的this" class="headerlink" title="函数中的this"></a>函数中的this</h3><p>this的基本使用很简单，直观看上去同其他语言一样，在对象的函数内用“this”来获得对象自身的引用，从而实现对对象自身数据的访问、修改。下面是最简单的使用例子：</p>
-<p>‘’’JavaScript<br>let user = {<br>    name: “ZZY”,<br>    age: 24</p>
-<pre><code>hello() {
-    alert(this.name)
-}
-</code></pre><p>}</p>
-<p>user.hello()</p>
-<p>‘’’</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">    name: <span class="string">"ZZY"</span>,</span><br><span class="line">    age: <span class="number">24</span></span><br><span class="line"></span><br><span class="line">    hello() &#123;</span><br><span class="line">        alert(<span class="keyword">this</span>.name)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user.hello()</span><br></pre></td></tr></table></figure>
 <p>然而需要注意的是，JavaScript中的”this”是在运行时动态确定的，同一个函数可以分别被不同的对象所使用，从而这个函数中的”this”也将会表示不同对象的引用，就像下面的这段代码：</p>
-<p>‘’’javascript<br>let user = {name: “ZZY”}<br>let admin = {name: “LYQ”}</p>
-<p>function hello(){<br>    alert(this.name)<br>}</p>
-<p>user.func = hello<br>admin.func = hello</p>
-<p>user.func() // ZZY<br>admin.func() // LYQ<br>hello() // undefine</p>
-<p>‘’’</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>: <span class="string">"ZZY"</span>&#125;</span><br><span class="line"><span class="keyword">let</span> admin = &#123;<span class="attr">name</span>: <span class="string">"LYQ"</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user.func = hello</span><br><span class="line">admin.func = hello</span><br><span class="line"></span><br><span class="line">user.func() <span class="comment">// ZZY</span></span><br><span class="line">admin.func() <span class="comment">// LYQ</span></span><br><span class="line">hello() <span class="comment">// undefine</span></span><br></pre></td></tr></table></figure>
 <p>那么js编译器在调用含“this”的函数时，必须需要知道这个this是引用的哪个对象，如果不知道，就会报错，就像下面这样</p>
-<p>‘’’javascript<br>let user = {<br>    name: “ZZY”,<br>    hello() {<br>        alert(this.name)<br>    }</p>
-<p>let hello = user.hello<br>hello() // error!<br>}<br>‘’’</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">    name: <span class="string">"ZZY"</span>,</span><br><span class="line">    hello() &#123;</span><br><span class="line">        alert(<span class="keyword">this</span>.name)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> hello = user.hello</span><br><span class="line">hello() <span class="comment">// error!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>要让this正确引用对象，js编译器使用了一种特殊的类型，叫“引用类型”(Reference Type)，这种类型是三个值的组合(base,name,strict)：</p>
 <ul>
 <li>base：对象</li>
@@ -155,10 +144,7 @@
 </ul>
 <p>当调用”user.hello()”时，”.”号返回的不是一个函数，而是一个特殊的“引用类型”，即上面那三个值的组合，这样运行时才能确定this所引用的对象是哪个。而这种引用类型只是编译器内部使用，并不能传递到外部给用户使用，所以执行”let hello = user.hello”之后，hello就是单纯的孤零零的函数，而不是三个值的组合。</p>
 <h3 id="箭头函数没有自己的this"><a href="#箭头函数没有自己的this" class="headerlink" title="箭头函数没有自己的this"></a>箭头函数没有自己的this</h3><p>箭头函数没有自己的this，如果箭头函数中使用了this，那么这个this将会直接继承自这个箭头函数定义时所在的代码语境中的this，即如下代码所示：</p>
-<p>‘’’javascript<br>let user = {<br>    name: “ZZY”,<br>    hello() {<br>        let arrow = () =&gt; alert(this.name)<br>        arrow()<br>    }<br>}</p>
-<p>user.hello() // ZZY</p>
-<p>‘’’</p>
-
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">    name: <span class="string">"ZZY"</span>,</span><br><span class="line">    hello() &#123;</span><br><span class="line">        <span class="keyword">let</span> arrow = <span class="function"><span class="params">()</span> =&gt;</span> alert(<span class="keyword">this</span>.name)</span><br><span class="line">        arrow()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">user.hello() <span class="comment">// ZZY</span></span><br></pre></td></tr></table></figure>
         
         <br>
         <div id="comment-container">
