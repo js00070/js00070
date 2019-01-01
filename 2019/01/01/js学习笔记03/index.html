@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="description">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        JavaScript学习笔记：闭包（Closure） - 1781的小提琴的博客 | 1781Violin&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 只有在现实的世界中并使用现实的手段才能实现真正的解放 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/head.jpg">
+        </div>
+        <div class="name">
+            <i>1781的小提琴</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包定义"><span class="toc-text">闭包定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#词法环境"><span class="toc-text">词法环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例子"><span class="toc-text">例子</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 只有在现实的世界中并使用现实的手段才能实现真正的解放 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JavaScript学习笔记：闭包（Closure）
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-01-01 17:39:38</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <p>简单总结一下JavaScript中的闭包的原理。</p>
+<h3 id="闭包定义"><a href="#闭包定义" class="headerlink" title="闭包定义"></a>闭包定义</h3><p>简单的来说，JavaScript中的闭包可以可以定义为：<strong>可以访问外部变量的函数</strong>。</p>
+<p>那么JavaScript是如何实现这种功能的呢？</p>
+<h3 id="词法环境"><a href="#词法环境" class="headerlink" title="词法环境"></a>词法环境</h3><p>在JavaScript内部实现中，函数或代码块实际上也是js的Object，本质上也是(key,value)的集合，局部变量的变量名就是Object内的属性名，而变量的值则是对应的属性值。对局部变量的赋值/修改操作实际上就是对于这个Object内的属性的赋值/修改操作。这种Object被称为<strong>词法环境</strong>(Lexical Environment)。</p>
+<p>词法环境这个Object包括两部分：</p>
+<ol>
+<li>环境记录(Environment Record)，也就是作为局部变量来实用的Object属性</li>
+<li>一个指向外层的词法环境的引用[[Environment]]（大括号的外面一层）。当访问了本词法环境中没有的属性名的时候，js会访问这个引用，到更外层的词法环境中去查询属性名，并且这个过程会递归进行，直到查询到最外层为止。</li>
+</ol>
+<p>在js中，当一个函数/代码块声明的时候，会把这个函数/代码块对应的[[Environment]]规定为本层的词法环境引用，但此时由于函数/代码块还没有实际执行，所以还没有在内存中真正创建词法环境实体，等到这个函数/代码块实际调用执行的时候，才会真正创建新的词法环境，并把这个词法环境中的[[Environment]]真正设置成之前所规定的引用值</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>下面是一个简短的代码例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> countBase = <span class="number">0</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">makeCounter</span>(<span class="params"></span>) </span>&#123; <span class="comment">//声明了makeCounter,规定了makeCounter的[[Environment]]指向countBase=0所在的词法环境</span></span><br><span class="line">  <span class="keyword">let</span> count = countBase;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">// 这个函数是在makeCounter()实际执行的时候才能被声明，它的[[Environment]]需要执行makeCounter的时候才能确定</span></span><br><span class="line">    <span class="keyword">return</span> count++;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123; <span class="comment">// 新的代码块</span></span><br><span class="line">    <span class="keyword">let</span> countBase = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">let</span> counter1 = makeCounter();</span><br><span class="line">    <span class="keyword">let</span> counter2 = makeCounter(); </span><br><span class="line">    <span class="comment">// 两次执行makeCounter()在内存中创建了两个不同的词法环境实体，它们所返回的两个匿名函数的[[Environment]]分别指向这两个不同的词法环境的引用，所以之后的counter1()与counter2()的效果是独立的</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log( counter1() ); <span class="comment">// 0</span></span><br><span class="line">    <span class="built_in">console</span>.log( counter1() ); <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">console</span>.log( counter2() ); <span class="comment">// 0</span></span><br><span class="line">    <span class="comment">// 执行counter的时候没有使用countBase=10，这是因为匿名函数拥有makeCounter的词法环境引用，而makeCounter拥有指向更外层的countBase=0的词法环境的引用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">妈的，原本想简单地总结一下的，没想到写得这么繁琐这么绕，，，</span><br></pre></td></tr></table></figure>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/z-z-y-17-81">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank" href="https://github.com/js00070">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="http://magicluna.me/">友情链接MagicLuna</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
