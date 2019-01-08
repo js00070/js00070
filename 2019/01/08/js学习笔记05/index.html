@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="description">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        JavaScript学习笔记：面向对象式编程 - 1781的小提琴的博客 | 1781Violin&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 只有在现实的世界中并使用现实的手段才能实现真正的解放 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/head.jpg">
+        </div>
+        <div class="name">
+            <i>1781的小提琴</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#对象的-Prototype"><span class="toc-text">对象的[[Prototype]]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数的原型属性-prototype"><span class="toc-text">函数的原型属性(prototype)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用函数原型实现面向对象"><span class="toc-text">用函数原型实现面向对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#class关键字"><span class="toc-text">class关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#super关键字"><span class="toc-text">super关键字</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 只有在现实的世界中并使用现实的手段才能实现真正的解放 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JavaScript学习笔记：面向对象式编程
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-01-08 10:30:30</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h3 id="对象的-Prototype"><a href="#对象的-Prototype" class="headerlink" title="对象的[[Prototype]]"></a>对象的[[Prototype]]</h3><p>js中任何对象内都有一个隐藏属性：[[Prototype]]，若访问的属性名在当前对象中没有找到，js会自动到[[Prototype]]所引用的对象中去寻找。[[prototype]]可以通过设置<strong>proto</strong>属性来<strong>间接</strong>设置（实际上<strong>proto</strong>是[[Prototype]]的setter），如下例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animal = &#123;</span><br><span class="line">    eats: <span class="literal">true</span></span><br><span class="line">    walk() &#123;</span><br><span class="line">        alert(<span class="string">"Animal walk"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = &#123;</span><br><span class="line">    jumps: <span class="literal">true</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">rabbit.__proto__ = animal;</span><br><span class="line"></span><br><span class="line"><span class="comment">// we can find both properties in rabbit now:</span></span><br><span class="line">alert( rabbit.eats ); <span class="comment">// true (**)</span></span><br><span class="line">alert( rabbit.jumps ); <span class="comment">// true</span></span><br><span class="line"><span class="comment">// walk is taken from the prototype</span></span><br><span class="line">rabbit.walk(); <span class="comment">// Animal walk</span></span><br></pre></td></tr></table></figure>
+<h3 id="函数的原型属性-prototype"><a href="#函数的原型属性-prototype" class="headerlink" title="函数的原型属性(prototype)"></a>函数的原型属性(prototype)</h3><p>js中的所有函数对象，都自动会创建一个prototype属性，属性值是一个原型对象”prototype”，里面包含一个constructor属性，其属性值设置为函数对象本身。当使用new调用这个函数来创建一个对象的时候，这个对象的[[Prototype]]会指向哪个原型对象，如下例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">// by default:</span></span><br><span class="line"><span class="comment">// Rabbit.prototype = &#123; constructor: Rabbit &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> Rabbit(); <span class="comment">// inherits from &#123;constructor: Rabbit&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(rabbit.constructor == Rabbit); </span><br><span class="line"><span class="comment">// true (from prototype)</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://javascript.info/article/function-prototype/rabbit-prototype-constructor@2x.png" alt="avatar"></p>
+<h3 id="用函数原型实现面向对象"><a href="#用函数原型实现面向对象" class="headerlink" title="用函数原型实现面向对象"></a>用函数原型实现面向对象</h3><p>把对象的方法都放在函数原型当中，如下面两个对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Rabbit.prototype.jump = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> jumps!`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">"My rabbit"</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://javascript.info/article/class-patterns/rabbit-animal-independent-1@2x.png" alt="avatar"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Animal</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Animal.prototype.eat = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> eats.`</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> animal = <span class="keyword">new</span> Animal(<span class="string">"My animal"</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://javascript.info/article/class-patterns/rabbit-animal-independent-2@2x.png" alt="avatar"></p>
+<p>要实现Rabbit继承Animal，只需要让Rabbit的函数原型的[[Prototype]]指向Animal的函数原型即可。如下代码及图示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// setup the inheritance chain</span></span><br><span class="line">Rabbit.prototype.__proto__ = Animal.prototype; <span class="comment">// (*)</span></span><br><span class="line"><span class="comment">// 或者也可以这样</span></span><br><span class="line">Rabbit.prototype = <span class="built_in">Object</span>.create(Animal.prototype)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> Rabbit(<span class="string">"White Rabbit"</span>);</span><br><span class="line">rabbit.eat(); <span class="comment">// rabbits can eat too</span></span><br><span class="line">rabbit.jump();</span><br></pre></td></tr></table></figure>
+<p>！<a href="https://javascript.info/article/class-patterns/class-inheritance-rabbit-animal@2x.png" target="_blank" rel="noopener">avatar</a></p>
+<p>创建出rabbit对象实例之后，完整的原型链还包括了Object公共原型，看起来是这样的：</p>
+<p>！<a href="https://javascript.info/article/class-patterns/class-inheritance-rabbit-animal@2x.png" target="_blank" rel="noopener">avatar</a></p>
+<h3 id="class关键字"><a href="#class关键字" class="headerlink" title="class关键字"></a>class关键字</h3><p>js实现面向对象的基本原理就是之前的那些，js把这些实现集合成语法糖，可以直接使用class关键字像其他语言那样直接定义类</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sayHi() &#123;</span><br><span class="line">        alert(<span class="keyword">this</span>.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> User(<span class="string">"John"</span>);</span><br><span class="line">user.sayHi();</span><br></pre></td></tr></table></figure>
+<p>上面这段代码，其实就等价于下面这段</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">User.prototype.sayHi = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    alert(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> User(<span class="string">"John"</span>);</span><br><span class="line">user.sayHi();</span><br></pre></td></tr></table></figure>
+<p>一个js中的类，可以写成以下这种形式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(...) &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    method1(...) &#123;&#125;</span><br><span class="line">    method2(...) &#123;&#125;</span><br><span class="line">    get something(...) &#123;&#125;</span><br><span class="line">    set something(...) &#123;&#125;</span><br><span class="line">    <span class="keyword">static</span> staticMethod(..) &#123;&#125;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Myclass实际上是一个变量，它的值是constructor构造函数，类里的方法如果不加static关键字，就是Myclass的原型内的方法，如果加上static关键字，那么这个函数就是Myclass函数对象内的方法，和Myclass构造函数返回的具体实例无关。</p>
+<p>类继承的语法糖如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rabbit</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="comment">// generated for extending classes without own constructors</span></span><br><span class="line">    <span class="keyword">constructor</span>(...args) &#123;</span><br><span class="line">        <span class="keyword">super</span>(...args);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    hide() &#123;</span><br><span class="line">        alert(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> hides!`</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    stop() &#123;</span><br><span class="line">        <span class="keyword">super</span>.stop(); <span class="comment">// call parent stop</span></span><br><span class="line">        <span class="keyword">this</span>.hide(); <span class="comment">// and then hide</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要补充的是，当类的原型对象组成继承链的时候，相应的构造函数对象也同时组成了继承链，这样子类也可以调用父类的static方法，如下图所示</p>
+<p><img src="https://javascript.info/article/class-inheritance/animal-rabbit-static@2x.png" alt="avatar"></p>
+<h3 id="super关键字"><a href="#super关键字" class="headerlink" title="super关键字"></a>super关键字</h3><p>super关键字用来访问当前类的父类的方法，它的原理是这样的：</p>
+<p>类原型的函数对象里会自动创建一个隐藏的[[HomeObject]]属性，该属性是指向这个原型对象的引用，这样每个类方法都可以通过[[HomeObject]]来访问它真正的原初的this，而不会被人为乱七八糟的调用以及call或者绑定所干扰对真正this值的判断。有了真正的原初的this，就可以通过访问this.[[Prototype]]来获得父类的原型对象了，从而实现了super的效果。</p>
+<p>下面用普通的Object写法来展示super的原理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> animal = &#123;</span><br><span class="line">  name: <span class="string">"Animal"</span>,</span><br><span class="line">  eat() &#123;         <span class="comment">// [[HomeObject]] == animal</span></span><br><span class="line">    alert(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> eats.`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = &#123;</span><br><span class="line">  __proto__: animal,</span><br><span class="line">  name: <span class="string">"Rabbit"</span>,</span><br><span class="line">  eat() &#123;         <span class="comment">// [[HomeObject]] == rabbit</span></span><br><span class="line">    <span class="keyword">super</span>.eat();  <span class="comment">// animal.eat() </span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> longEar = &#123;</span><br><span class="line">  __proto__: rabbit,</span><br><span class="line">  name: <span class="string">"Long Ear"</span>,</span><br><span class="line">  eat() &#123;         <span class="comment">// [[HomeObject]] == longEar</span></span><br><span class="line">    <span class="keyword">super</span>.eat();  <span class="comment">// rabbit.eat()</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">longEar.eat();  <span class="comment">// Long Ear eats.</span></span><br></pre></td></tr></table></figure>
+<p>需要注意的是，只有写成类方法形式的函数才会生成[[HomeObject]]，如果写成”Method : function()”的形式，就不会有[[HomeObject]]。</p>
+
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/z-z-y-17-81">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank" href="https://github.com/js00070">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="http://magicluna.me/">友情链接MagicLuna</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
