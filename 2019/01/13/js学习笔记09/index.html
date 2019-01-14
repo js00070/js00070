@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="description">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+        JavaScript学习笔记：异步编程 - 1781的小提琴的博客 | 1781Violin&#39;s Blog
+        
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> 只有在现实的世界中并使用现实的手段才能实现真正的解放 </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
+        
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar">
+            <img src="/img/head.jpg">
+        </div>
+        <div class="name">
+            <i>1781的小提琴</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li>
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li>
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise"><span class="toc-text">Promise</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise链"><span class="toc-text">Promise链</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise-all"><span class="toc-text">Promise.all</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Async-await"><span class="toc-text">Async/await</span></a></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input">
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+        <div class="index-about-mobile">
+            <i> 只有在现实的世界中并使用现实的手段才能实现真正的解放 </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
+        
+
+
+<div class="post-container">
+    <div class="post-title">
+        JavaScript学习笔记：异步编程
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-01-13 18:46:43</span></span>
+        
+        <span class="attr">标签：/
+        
+        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+        <span>/</span>
+        
+        
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+
+    </div>
+    <div class="post-content ">
+        <h3 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h3><p>Promise类的基本用法如下，构造promise时，需传入一个高阶函数，其中resolve表示任务执行成功后的回调函数，reject表示任务执行失败后的错误处理函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">    setTimeOut(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">"done!"</span>),<span class="number">1000</span>)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(result)</span><br><span class="line">    <span class="comment">// done!</span></span><br><span class="line">&#125;,err =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err)</span><br><span class="line">    <span class="comment">// 若出错，则打印错误信息</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者也可以catch</span></span><br><span class="line">promise.catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>实际上，resolve函数只是在promise的功能执行完毕后，把需要的信息传递出来，传递到”then”里处理，真正的回调函数主体是需要在then中详细写出的，resolve只是起到一个传递消息的功能。</p>
+<h3 id="Promise链"><a href="#Promise链" class="headerlink" title="Promise链"></a>Promise链</h3><p>当有多个异步任务（如任务A、任务B、任务C）需要依次执行的时候，实现方法是在A的回调函数中执行B，在B的回调函数中执行C，为了避免写成回调函数嵌套形式，可以使用promise-then链的写法，好处是更加清晰，方便阅读和修改。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="number">1</span>), <span class="number">1000</span>); <span class="comment">// (*)</span></span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123; <span class="comment">// (**)</span></span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// 1</span></span><br><span class="line">  <span class="keyword">return</span> result * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123; <span class="comment">// (***)</span></span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// 2</span></span><br><span class="line">  <span class="keyword">return</span> result * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">result</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// 4</span></span><br><span class="line">  <span class="keyword">return</span> result * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>then函数传入了一个处理resolve结果的回调函数f(result)，返回的是一个Promise类，这个promise类实际上是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 伪代码，仅为了说明，无法实际执行</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve,reject</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> new_result = f(result)</span><br><span class="line">    resolve(new_result) <span class="comment">// 将上一个then对result的处理结果作为新的result通过resolve传到下一个then里</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>实际上就是将上一个then对result的处理结果作为新的result通过resolve传到下一个then里，这样就可以实现promise-then链了。</p>
+<p>有一个特殊的情况，当then内的回调函数返回的是一个新的Promise类时，js会直接把这个类作为then的返回值，依次执行A、B、C，可以这样实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ... ... 执行任务A</span></span><br><span class="line">  resolve(<span class="string">"A is done!"</span>)</span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// A is done!</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123; <span class="comment">// (*)</span></span><br><span class="line">    <span class="comment">// ... ... 执行任务B</span></span><br><span class="line">    resolve(<span class="string">"B is done!"</span>)</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function"><span class="params">result</span> =&gt;</span> &#123; <span class="comment">// (**)</span></span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// B is done!</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ... ... 执行任务C</span></span><br><span class="line">    resolve(<span class="string">"C is done!"</span>)</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// C is done!</span></span><br><span class="line">  alert(<span class="string">"A B C all done!"</span>)</span><br><span class="line">&#125;).catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ... 处理错误</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当然，不手动创建新的Promise，直接在then里执行后续的任务也是可以的，像下面这个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Make a request for user.json</span></span><br><span class="line">fetch(<span class="string">'/article/promise-chaining/user.json'</span>)</span><br><span class="line">  <span class="comment">// Load it as json</span></span><br><span class="line">  .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</span><br><span class="line">  <span class="comment">// Make a request to github</span></span><br><span class="line">  .then(<span class="function"><span class="params">user</span> =&gt;</span> fetch(<span class="string">`https://api.github.com/users/<span class="subst">$&#123;user.name&#125;</span>`</span>))</span><br><span class="line">  <span class="comment">// Load the response as json</span></span><br><span class="line">  .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</span><br><span class="line">  <span class="comment">// Show the avatar image (githubUser.avatar_url) for 3 seconds (maybe animate it)</span></span><br><span class="line">  .then(<span class="function"><span class="params">githubUser</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> img = <span class="built_in">document</span>.createElement(<span class="string">'img'</span>);</span><br><span class="line">    img.src = githubUser.avatar_url;</span><br><span class="line">    img.className = <span class="string">"promise-avatar-example"</span>;</span><br><span class="line">    <span class="built_in">document</span>.body.append(img);</span><br><span class="line"></span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> img.remove(), <span class="number">3000</span>); <span class="comment">// (*)</span></span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">// handle error ... </span></span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="Promise-all"><a href="#Promise-all" class="headerlink" title="Promise.all"></a>Promise.all</h3><p>若有多个任务需要同时运行，且需要等待这些任务全都完成后执行后续操作，就需要用到Promise.all了，如下面这个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> urls = [</span><br><span class="line">  <span class="string">'https://api.github.com/users/iliakan'</span>,</span><br><span class="line">  <span class="string">'https://api.github.com/users/remy'</span>,</span><br><span class="line">  <span class="string">'https://api.github.com/users/jeresig'</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// map every url to the promise fetch(github url)</span></span><br><span class="line"><span class="keyword">let</span> requests = urls.map(<span class="function"><span class="params">url</span> =&gt;</span> fetch(url));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Promise.all waits until all jobs are resolved</span></span><br><span class="line"><span class="keyword">let</span> names = [<span class="string">'iliakan'</span>, <span class="string">'remy'</span>, <span class="string">'jeresig'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> requests = names.map(<span class="function"><span class="params">name</span> =&gt;</span> fetch(<span class="string">`https://api.github.com/users/<span class="subst">$&#123;name&#125;</span>`</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.all(requests)</span><br><span class="line">  .then(<span class="function"><span class="params">responses</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// all responses are ready, we can show HTTP status codes</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> response <span class="keyword">of</span> responses) &#123;</span><br><span class="line">      alert(<span class="string">`<span class="subst">$&#123;response.url&#125;</span>: <span class="subst">$&#123;response.status&#125;</span>`</span>); <span class="comment">// shows 200 for every url</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> responses;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// map array of responses into array of response.json() to read their content</span></span><br><span class="line">  .then(<span class="function"><span class="params">responses</span> =&gt;</span> <span class="built_in">Promise</span>.all(responses.map(<span class="function"><span class="params">r</span> =&gt;</span> r.json())))</span><br><span class="line">  <span class="comment">// all JSON answers are parsed: "users" is the array of them</span></span><br><span class="line">  .then(<span class="function"><span class="params">users</span> =&gt;</span> users.forEach(<span class="function"><span class="params">user</span> =&gt;</span> alert(user.name)));</span><br></pre></td></tr></table></figure>
+<h3 id="Async-await"><a href="#Async-await" class="headerlink" title="Async/await"></a>Async/await</h3><p>在自定义的函数前加上“async”关键字，可以让这个函数像then那样返回一个Promise类，Async函数体的编写要点和then是一模一样的。下面是例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f().then(alert); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p>await可以让当前程序的线程阻塞，等待指定的Promise执行结束，并得到resolve返回的结果，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> resolve(<span class="string">"done!"</span>), <span class="number">1000</span>)</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> result = <span class="keyword">await</span> promise; <span class="comment">// wait till the promise resolves (*)</span></span><br><span class="line"></span><br><span class="line">  alert(result); <span class="comment">// "done!"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">f();</span><br></pre></td></tr></table></figure>
+        
+        <br>
+        <div id="comment-container">
+        </div>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+    </div>
+</div>
+
+
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
+        <li>
+            <a target="_blank" href="https://www.zhihu.com/people/z-z-y-17-81">
+                            <span class="fa-stack fa-lg">
+                                 <i class="iconfont icon-zhihu"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+        
+
+        
+        <li>
+            <a target="_blank" href="https://github.com/js00070">
+                            <span class="fa-stack fa-lg">
+                                <i class="iconfont icon-github"></i>
+                            </span>
+            </a>
+        </li>
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span>/</span>
+        
+        <span><a href="http://magicluna.me/">友情链接MagicLuna</a></span>
+        <span>/</span>
+        
+    </p>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud">AirCloud</a></p>
+</footer>
+
+
+
+
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = ""
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>
