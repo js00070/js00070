@@ -11,7 +11,7 @@
 
     <title>
         
-        JavaScript学习笔记：样式修改 - 1781的小提琴的博客 | 1781Violin&#39;s Blog
+        React学习笔记：2048小游戏 - 1781的小提琴的博客 | 1781Violin&#39;s Blog
         
     </title>
 
@@ -82,7 +82,7 @@
     </div>
     
         <div id="toc" class="toc-article">
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#class与style"><span class="toc-text">class与style</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制元素大小和位置"><span class="toc-text">控制元素大小和位置</span></a></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#小练习：2048"><span class="toc-text">小练习：2048</span></a></li></ol>
 </div>
     
 </div>
@@ -112,18 +112,18 @@
 
 <div class="post-container">
     <div class="post-title">
-        JavaScript学习笔记：样式修改
+        React学习笔记：2048小游戏
     </div>
 
     <div class="post-meta">
-        <span class="attr">发布于：<span>2019-01-10 14:44:44</span></span>
+        <span class="attr">发布于：<span>2019-01-25 11:04:12</span></span>
         
         <span class="attr">标签：/
         
         <a class="tag" href="/tags/#前端" title="前端">前端</a>
         <span>/</span>
         
-        <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
+        <a class="tag" href="/tags/#React" title="React">React</a>
         <span>/</span>
         
         
@@ -133,16 +133,9 @@
 
     </div>
     <div class="post-content ">
-        <h3 id="class与style"><a href="#class与style" class="headerlink" title="class与style"></a>class与style</h3><ul>
-<li>elem.className，获取html元素的class字符串</li>
-<li>elem.classList，获取html元素的class的list</li>
-<li>elem.style获取style的key-value对集合，返回的是一个js的Object</li>
-<li>elem.cssStyle返回原始的style字符串</li>
-<li>getComputedStyle(elem)返回经过css选择器修饰过的样式Object</li>
-</ul>
-<h3 id="控制元素大小和位置"><a href="#控制元素大小和位置" class="headerlink" title="控制元素大小和位置"></a>控制元素大小和位置</h3><p><img src="https://javascript.info/article/size-and-scroll/metric-css@2x.png" alt="示意图1"></p>
-<p><img src="https://javascript.info/article/size-and-scroll/metric-all@2x.png" alt="示意图2"></p>
-<p><img src="https://javascript.info/article/size-and-scroll/metric-offset-parent@2x.png" alt="示意图3"></p>
+        <h3 id="小练习：2048"><a href="#小练习：2048" class="headerlink" title="小练习：2048"></a>小练习：2048</h3><p>用react实现了经典的2048小游戏，用gh-pages这个工具部署到了github pages上，还是很方便的。实现的思路是，存储一个4×4的数字矩阵作为可变的state，每个方块根据自己的数字来调整style，这种思路实现起来很简单，但缺点是无法应用CSS动画，如果想要应用CSS动画，就得换成这种思路：存储一个方块链表作为可变的state，每个方块存储自己的位置坐标作为可变的state，并根据CSS来控制自己在背景版面上的位置，这样在改变方块位置时就可以应用CSS的transform动画了。下一步会尝试用新思路实现新版的带动画的2048小游戏。</p>
+<p>另外，我还想到，可以用神经网络训练一个2048游戏AI，来和人类玩家比一比谁更厉害，准备找找有没有JavaScript的神经网络库。</p>
+<p>2048小游戏链接：<a href="https://js00070.github.io/react-app-test/" target="_blank" rel="noopener">https://js00070.github.io/react-app-test/</a></p>
 
         
         <br>
